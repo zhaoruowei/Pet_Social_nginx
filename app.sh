@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec uwsgi --ini uwsgi.ini
+sudo exec uwsgi --ini uwsgi.ini
