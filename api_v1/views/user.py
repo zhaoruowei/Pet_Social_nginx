@@ -41,7 +41,7 @@ class Index(APIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        ret = {"code": 200, "msg": "Hello world!", "uid": request.user, "host": os.getenv("MYSQL_SERVICE_HOST", "TEST"), "PWD": os.getenv("REDIS_PASSWORD", "123")}
+        ret = {"code": 200, "msg": "Hello world!", "uid": request.user, "host": os.getenv("REDIS_SERVICE_HOST", "TEST")}
         return Response(ret, status=200)
         pass
 
