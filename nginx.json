@@ -1,32 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@zhaoruowei 
-sclorg
-/
-nginx-ex
-Public
-Code
-Issues
-Pull requests
-4
-Actions
-Projects
-Wiki
-Security
-Insights
-nginx-ex/openshift/templates/nginx.json
-@pvalena
-pvalena how
-Latest commit 76cd160 on 16 Oct 2017
- History
- 1 contributor
-276 lines (276 sloc)  7.91 KB
-
 {
   "kind": "Template",
   "apiVersion": "v1",
