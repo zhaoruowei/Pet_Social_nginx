@@ -151,7 +151,7 @@ REST_FRAMEWORK = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://default:Gyapnqo6MEvKOGVMKaRiobUaAUJRUxYj@redis-11543.c1.us-east1-2.gce.cloud.redislabs.com:11543',
+        'LOCATION': 'redis://auth:root@172.30.111.52:6379',
     }
 }
 
