@@ -1,2 +1,2 @@
-# Pet_Social
+# Pet_Social nginx config
 django project
