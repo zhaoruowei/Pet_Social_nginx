@@ -11,8 +11,6 @@
 @Software: PyCharm
 """
 
-import os
-
 from django.core.cache import cache
 from rest_framework import status
 from rest_framework.views import APIView
@@ -41,7 +39,7 @@ class Index(APIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        ret = {"code": 200, "msg": "Hello world!", "uid": request.user, "host": os.getenv("REDIS_SERVICE_HOST", "TEST")}
+        ret = {"code": 200, "msg": "Hello world!", "uid": request.user}
         return Response(ret, status=200)
         pass
 
