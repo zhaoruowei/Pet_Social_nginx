@@ -14,7 +14,7 @@
       "openshift.io/support-url": "https://access.redhat.com"
     }
   },
-  "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nginx-ex/blob/master/README.md.",
+  "message": "The following service(s) have been created in your project: Pet_Social.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nginx-ex/blob/master/README.md.",
   "labels": {
     "template": "nginx-example"
   },
@@ -23,7 +23,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "Pet_Social",
         "annotations": {
           "description": "Exposes and load balances the application pods"
         }
@@ -37,7 +37,7 @@
           }
         ],
         "selector": {
-          "name": "${NAME}"
+          "name": "Pet_Social"
         }
       }
     },
@@ -45,16 +45,16 @@
       "kind": "Route",
       "apiVersion": "route.openshift.io/v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "Pet_Social",
         "annotations": {
           "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
         }
       },
       "spec": {
-        "host": "${APPLICATION_DOMAIN}",
+        "host": "172.30.75.146",
         "to": {
           "kind": "Service",
-          "name": "${NAME}"
+          "name": "Pet_Social"
         }
       }
     },
@@ -62,7 +62,7 @@
       "kind": "ImageStream",
       "apiVersion": "image.openshift.io/v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "Pet_Social",
         "annotations": {
           "description": "Keeps track of changes in the application image"
         }
@@ -72,7 +72,7 @@
       "kind": "BuildConfig",
       "apiVersion": "build.openshift.io/v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "Pet_Social",
         "annotations": {
           "description": "Defines how to build the application",
           "template.alpha.openshift.io/wait-for-ready": "true"
@@ -100,7 +100,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "${NAME}:latest"
+            "name": "Pet_Social:latest"
           }
         },
         "triggers": [
@@ -129,7 +129,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "apps.openshift.io/v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "Pet_Social",
         "annotations": {
           "description": "Defines how to deploy the application server",
           "template.alpha.openshift.io/wait-for-ready": "true"
@@ -149,7 +149,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "${NAME}:latest"
+                "name": "Pet_Social:latest"
               }
             }
           },
@@ -159,13 +159,13 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "${NAME}"
+          "name": "Pet_Social"
         },
         "template": {
           "metadata": {
-            "name": "${NAME}",
+            "name": "Pet_Social",
             "labels": {
-              "name": "${NAME}"
+              "name": "Pet_Social"
             }
           },
           "spec": {
