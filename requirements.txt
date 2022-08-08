@@ -4,3 +4,4 @@ djangorestframework==3.13.1
 redis==4.3.4
 Pillow==9.2.0
 hiredis
+uwsgi
