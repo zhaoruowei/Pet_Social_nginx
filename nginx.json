@@ -1,6 +1,35 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@zhaoruowei 
+sclorg
+/
+nginx-ex
+Public
+Code
+Issues
+Pull requests
+4
+Actions
+Projects
+Wiki
+Security
+Insights
+nginx-ex/openshift/templates/nginx.json
+@pvalena
+pvalena how
+Latest commit 76cd160 on 16 Oct 2017
+ History
+ 1 contributor
+276 lines (276 sloc)  7.91 KB
+
 {
   "kind": "Template",
-  "apiVersion": "template.openshift.io/v1",
+  "apiVersion": "v1",
   "metadata": {
     "name": "nginx-example",
     "annotations": {
@@ -8,13 +37,13 @@
       "description": "An example Nginx HTTP server and a reverse proxy (nginx) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nginx-ex/blob/master/README.md.",
       "tags": "quickstart,nginx",
       "iconClass": "icon-nginx",
-      "openshift.io/long-description": "This template defines resources needed to develop a static application served by Nginx HTTP server and a reverse proxy (nginx), including a build configuration and application deployment configuration.",
-      "openshift.io/provider-display-name": "Red Hat, Inc.",
-      "openshift.io/documentation-url": "https://github.com/sclorg/nginx-ex",
-      "openshift.io/support-url": "https://access.redhat.com"
+      "template.openshift.io/long-description": "This template defines resources needed to develop a static application served by Nginx HTTP server and a reverse proxy (nginx), including a build configuration and application deployment configuration.",
+      "template.openshift.io/provider-display-name": "Red Hat, Inc.",
+      "template.openshift.io/documentation-url": "https://github.com/sclorg/nginx-ex",
+      "template.openshift.io/support-url": "https://access.redhat.com"
     }
   },
-  "message": "The following service(s) have been created in your project: Pet_Social.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nginx-ex/blob/master/README.md.",
+  "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nginx-ex/blob/master/README.md.",
   "labels": {
     "template": "nginx-example"
   },
@@ -23,7 +52,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "Pet_Social",
+        "name": "${NAME}",
         "annotations": {
           "description": "Exposes and load balances the application pods"
         }
@@ -37,32 +66,32 @@
           }
         ],
         "selector": {
-          "name": "Pet_Social"
+          "name": "${NAME}"
         }
       }
     },
     {
       "kind": "Route",
-      "apiVersion": "route.openshift.io/v1",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "Pet_Social",
+        "name": "${NAME}",
         "annotations": {
           "template.openshift.io/expose-uri": "http://{.spec.host}{.spec.path}"
         }
       },
       "spec": {
-        "host": "172.30.75.146",
+        "host": "${APPLICATION_DOMAIN}",
         "to": {
           "kind": "Service",
-          "name": "Pet_Social"
+          "name": "${NAME}"
         }
       }
     },
     {
       "kind": "ImageStream",
-      "apiVersion": "image.openshift.io/v1",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "Pet_Social",
+        "name": "${NAME}",
         "annotations": {
           "description": "Keeps track of changes in the application image"
         }
@@ -70,9 +99,9 @@
     },
     {
       "kind": "BuildConfig",
-      "apiVersion": "build.openshift.io/v1",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "Pet_Social",
+        "name": "${NAME}",
         "annotations": {
           "description": "Defines how to build the application",
           "template.alpha.openshift.io/wait-for-ready": "true"
@@ -93,14 +122,14 @@
             "from": {
               "kind": "ImageStreamTag",
               "namespace": "${NAMESPACE}",
-              "name": "nginx:${NGINX_VERSION}"
+              "name": "nginx:1.12"
             }
           }
         },
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "Pet_Social:latest"
+            "name": "${NAME}:latest"
           }
         },
         "triggers": [
@@ -127,9 +156,9 @@
     },
     {
       "kind": "DeploymentConfig",
-      "apiVersion": "apps.openshift.io/v1",
+      "apiVersion": "v1",
       "metadata": {
-        "name": "Pet_Social",
+        "name": "${NAME}",
         "annotations": {
           "description": "Defines how to deploy the application server",
           "template.alpha.openshift.io/wait-for-ready": "true"
@@ -149,7 +178,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "Pet_Social:latest"
+                "name": "${NAME}:latest"
               }
             }
           },
@@ -159,13 +188,13 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "Pet_Social"
+          "name": "${NAME}"
         },
         "template": {
           "metadata": {
-            "name": "Pet_Social",
+            "name": "${NAME}",
             "labels": {
-              "name": "Pet_Social"
+              "name": "${NAME}"
             }
           },
           "spec": {
@@ -192,6 +221,11 @@
                     "httpGet": {
                         "path": "/",
                         "port": 8080
+                    }
+                },
+                "resources": {
+                    "limits": {
+                        "memory": "${MEMORY_LIMIT}"
                     }
                 },
                 "env": [
@@ -222,13 +256,6 @@
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
       "value": "openshift"
-    },
-    {
-      "name": "NGINX_VERSION",
-      "displayName": "NGINX Version",
-      "description": "Version of NGINX image to be used (1.20-el8 by default).",
-      "required": true,
-      "value": "1.20-el8"
     },
     {
       "name": "MEMORY_LIMIT",
